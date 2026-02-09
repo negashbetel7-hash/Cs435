@@ -1,0 +1,11 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Generated images / animations
+*.gif
+*.png
+frames/
+
+# System files
+.DS_Store
