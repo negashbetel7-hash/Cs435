@@ -153,7 +153,7 @@ def run_part1_all():
     print(" - q4_orthographic_same_rotation.png")
 
 
-# If you're running as a .py file, this runs everything automatically:
+
 if __name__ == "__main__":
     run_part1_all()
 	run_part2_1()
