@@ -19,7 +19,10 @@ def generate_gif():
     with imageio.get_writer("cube.gif", mode='I') as writer:
         for i in range(n_frames):
             frame = plt.imread(fstr % i)
+            frame = (frame * 255).astype('uint8') 
             writer.append_data(frame)
             os.remove(fstr%i)
             
     os.rmdir("frames")
+if __name__ == "__main__":
+    generate_gif()
