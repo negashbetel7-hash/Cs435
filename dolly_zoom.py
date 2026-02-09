@@ -12,6 +12,28 @@ def rr():
     #don't change the handedness...
     return np.dot(U,Vt) / np.linalg.det(U) / np.linalg.det(Vt)
 
+def rotY(theta):
+    """
+    Rotation about y-axis by theta radians (right-hand rule).
+    """
+    c, s = np.cos(theta), np.sin(theta)
+    return np.array([
+        [ c, 0,  s],
+        [ 0, 1,  0],
+        [-s, 0,  c],
+    ], dtype=float)
+
+def rotX(theta):
+    """
+    Rotation about x-axis by theta radians (right-hand rule).
+    """
+    c, s = np.cos(theta), np.sin(theta)
+    return np.array([
+        [1, 0,  0],
+        [0, c, -s],
+        [0, s,  c],
+    ], dtype=float)
+    
 def generateCube():
     #return a Nx6 collection of the lines of a unit cube ranging in
     #x and y from -0.5 to 0.5, and z from 0 to 1
