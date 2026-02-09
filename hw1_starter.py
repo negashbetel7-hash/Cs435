@@ -3,6 +3,9 @@ from dolly_zoom import *
 
 import os
 import imageio
+import cv2
+import matplotlib.pyplot as plt
+import numpy as np
 
 # Call this function to generate gif. make sure you have rotY() implemented.
 def generate_gif():
@@ -97,6 +100,37 @@ def q4_make_orthographic_plot(R_best):
     plt.savefig("q4_orthographic_same_rotation.png")
     plt.close()
 
+def save_rgb_and_lab_channels(image_path, prefix):
+    bgr = cv2.imread(image_path)
+    if bgr is None:
+        raise FileNotFoundError(f"Could not read {image_path}. Make sure it's in the same folder.")
+    rgb = cv2.cvtColor(bgr, cv2.COLOR_BGR2RGB)
+
+    # RGB channels as grayscale (avoid normalization issues)
+    channel_names = ["R", "G", "B"]
+    for c, name in enumerate(channel_names):
+        plt.figure()
+        plt.title(f"{prefix} - {name} channel")
+        plt.imshow(rgb[:, :, c], cmap="gray", vmin=0, vmax=255)
+        plt.axis("off")
+        plt.savefig(f"{prefix}_RGB_{name}.png", bbox_inches="tight")
+        plt.close()
+
+    # LAB channels
+    lab = cv2.cvtColor(rgb, cv2.COLOR_RGB2LAB)  # L in [0,255], A/B in [0,255] (offset)
+    lab_names = ["L", "A", "B"]
+    for c, name in enumerate(lab_names):
+        plt.figure()
+        plt.title(f"{prefix} - LAB {name} channel")
+        plt.imshow(lab[:, :, c], cmap="gray")
+        plt.axis("off")
+        plt.savefig(f"{prefix}_LAB_{name}.png", bbox_inches="tight")
+        plt.close()
+    
+def run_part2_1():
+    save_rgb_and_lab_channels("indoor.png", "indoor")
+    save_rgb_and_lab_channels("outdoor.png", "outdoor")
+    print("Generated Part 2.1 files (indoor/outdoor RGB + LAB channel images).")
 
 def run_part1_all():
     # Q1
@@ -122,3 +156,4 @@ def run_part1_all():
 # If you're running as a .py file, this runs everything automatically:
 if __name__ == "__main__":
     run_part1_all()
+	run_part2_1()
